@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Person ❤️</title>
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --primary-dark: #c9184a;
+            --secondary: #ffb3c1;
+            --bg: #fff0f3;
+            --text: #590d22;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', cursive, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #fce4ec 0%, #ffc1e3 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: var(--text);
+        }
+
+        /* --- Progress Bar --- */
+        .progress-container {
+            position: fixed;
+            top: 20px;
+            width: 80%;
+            max-width: 400px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 20%;
+            background: var(--primary);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- Background Hearts --- */
+        .heart-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+
+        /* --- Page Logic --- */
+        .page {
+            display: none;
+            width: 90%;
+            max-width: 500px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        h1 { font-size: 2rem; margin-bottom: 1rem; color: var(--primary-dark); }
+        p { margin-bottom: 1.5rem; line-height: 1.5; font-size: 1.1rem; }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-next:hover { transform: translateY(-3px); background: var(--primary-dark); }
+
+        /* --- Custom Page Styles --- */
+        /* Memory Lane */
+        .memory-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            border-left: 5px solid var(--primary);
+            text-align: left;
+            font-style: italic;
+        }
+
+        /* Reasons Why (Click to reveal) */
+        .reason-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .reason-box {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        .reason-box.revealed { background: white; border: 2px solid var(--primary); }
+
+        /* Virtual Gift */
+        .gift-container {
+            font-size: 5rem;
+            cursor: pointer;
+            transition: 0.5s;
+            margin: 20px;
+        }
+        .gift-container:hover { transform: scale(1.2) rotate(5deg); }
+
+        /* The Question */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 100px;
+            align-items: center;
+        }
+        #noBtn {
+            position: absolute;
+            background: #eee;
+            color: #777;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #yesBtn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px; height: 10px;
+            background: var(--primary);
+            animation: drop 3s linear forwards;
+        }
+
+        @keyframes drop {
+            to { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-bg" id="heartBg"></div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Page 1: Intro -->
+    <div class="page active" id="page1">
+        <h1>Bubu...</h1>
+        <p>I know I've acted very bad and hurt you yesterday. So thats why, I wanted to show you something I wrote for you.</p>
+        <p>Click the button below bubu hehe?</p>
+        <button class="btn-next" onclick="nextPage(2)">Goad Baal ❤️</button>
+    </div>
+
+    <!-- Page 2: Memory Lane -->
+    <div class="page" id="page2">
+        <h1>Our Best Bits 📸</h1>
+        <p>Sorry for what happened yesterday, but these are the moments always running in my mind:</p>
+        <div class="memory-card">"That time we went on our first date on beach in Virar just you and me and majja majja..."</div>
+        <div class="memory-card">"The way you support me whenever I have a bad phase of my youtube."</div>
+        <div class="memory-card">"How comfortable I feel whenever I am with you bubu. I love you."</div>
+        <button class="btn-next" onclick="nextPage(3)">Next: A Reminder for bubu</button>
+    </div>
+
+    <!-- Page 3: Reasons Why -->
+    <div class="page" id="page3">
+        <h1>Why You're Amazing ✨</h1>
+        <p>Click the boxes to see what I love about you:</p>
+        <div class="reason-grid">
+            <div class="reason-box" onclick="reveal(this, 'Your kindness')">?</div>
+            <div class="reason-box" onclick="reveal(this, 'Your singing')">?</div>
+            <div class="reason-box" onclick="reveal(this, 'Your support')">?</div>
+            <div class="reason-box" onclick="reveal(this, 'YOU BUBU')">?</div>
+        </div>
+        <button class="btn-next" id="reasonNext" style="display:none;" onclick="nextPage(4)">I can't fit everything in 4 boxes</button>
+    </div>
+
+    <!-- Page 4: Virtual Gift -->
+    <div class="page" id="page4">
+        <h1>A Peace Offering 🎁</h1>
+        <p>Click the gift to open it!</p>
+        <div class="gift-container" id="gift" onclick="openGift()">🎁</div>
+        <p id="giftMsg" style="display:none; font-weight:bold; color:var(--primary-dark);">A virtual bouquet of 1,000 roses! (Because bubu likes flowers to stay on plants)🌹🌸🌷</p>
+        <button class="btn-next" id="giftNext" style="display:none;" onclick="nextPage(5)">One last thing...</button>
+    </div>
+
+    <!-- Page 5: The Question -->
+    <div class="page" id="page5">
+        <h1>I'm Truly Sorry ❤️</h1>
+        <p>I promise to listen better, love harder, and be the person you can trust the most. I hate seeing us like this.</p>
+        <p>Will you forgive me?</p>
+        <div class="btn-group">
+            <button id="yesBtn" class="btn-next" onclick="celebrate()">Yes</button>
+            <button id="noBtn" onmouseover="moveNo()">No</button>
+        </div>
+    </div>
+
+    <!-- Page 6: Success -->
+    <div class="page" id="page6">
+        <h1 style="font-size: 4rem;">💖</h1>
+        <h1>Thank You BUBU!</h1>
+        <p>You just made me the luckiest person alive. I love you to the moon and back bubu!</p>
+        <button class="btn-next" onclick="location.reload()">Give me a hug?</button>
+    </div>
+
+    <script>
+        // 1. Navigation Logic
+        function nextPage(num) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + num).classList.add('active');
+            
+            // Update Progress Bar
+            const progress = (num / 6) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // 2. Interactive Page 3: Reasons
+        let revealedCount = 0;
+        function reveal(el, text) {
+            if(!el.classList.contains('revealed')) {
+                el.innerText = text;
+                el.classList.add('revealed');
+                revealedCount++;
+                if(revealedCount >= 4) {
+                    document.getElementById('reasonNext').style.display = 'inline-block';
+                }
+            }
+        }
+
+        // 3. Interactive Page 4: Gift
+        function openGift() {
+            const gift = document.getElementById('gift');
+            gift.innerText = '💐';
+            document.getElementById('giftMsg').style.display = 'block';
+            document.getElementById('giftNext').style.display = 'inline-block';
+            createConfetti();
+        }
+
+        // 4. The Runaway Button
+        function moveNo() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * (window.innerWidth - btn.clientWidth - 50);
+            const y = Math.random() * (window.innerHeight - btn.clientHeight - 50);
+            
+            // Move it outside the container for maximum effect
+            btn.style.position = 'fixed';
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        // 5. Success Celebration
+        function celebrate() {
+            nextPage(6);
+            for(let i=0; i<100; i++) {
+                setTimeout(createConfetti, i * 20);
+            }
+        }
+
+        function createConfetti() {
+            const c = document.createElement('div');
+            c.className = 'confetti';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.backgroundColor = ['#ff4d6d', '#ffb3c1', '#ff758f', '#ffffff'][Math.floor(Math.random()*4)];
+            c.style.top = '-10px';
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 3000);
+        }
+
+        // 6. Background Hearts
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '-20px';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.opacity = Math.random();
+            heart.style.transition = 'transform 5s linear, opacity 5s';
+            document.getElementById('heartBg').appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = `translateY(-110vh) translateX(${Math.random() * 100 - 50}px)`;
+                heart.style.opacity = '0';
+            }, 100);
+
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(spawnHeart, 300);
+
+    </script>
+</body>
+
+</html>
